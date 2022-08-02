@@ -1,0 +1,39 @@
+{
+  "name": "kadamate-backend",
+  "version": "1.0.0",
+  "description": "this backend for kadamatee.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc -w",
+    "start": "node dist/index.js",
+    "startts": "ts-node dist/index.ts",
+    "dev": "nodemon dist/index.js",
+    "devts": "nodemon --exec ts-node src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express-session": "^1.17.5",
+    "@types/passport": "^1.0.9",
+    "@types/passport-local": "^1.0.34",
+    "apollo-server-express": "^3.10.0",
+    "argon2": "^0.28.7",
+    "connect-mongo": "^4.6.0",
+    "connect-typeorm": "^2.0.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "graphql": "^16.5.0",
+    "oauth2-server": "^3.1.1",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^7.1.2",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.9.1",
+    "type-graphql": "^1.1.1",
+    "typeorm": "^0.3.7",
+    "typeorm-store": "^2.0.0",
+    "typescript": "^4.7.4"
+  }
+}
