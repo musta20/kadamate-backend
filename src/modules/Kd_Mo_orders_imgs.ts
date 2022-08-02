@@ -1,48 +1,30 @@
 import { Field, ObjectType , InputType } from "type-graphql";
-import { PrimaryGeneratedColumn , Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity} from "typeorm";
+import { ObjectIdColumn , Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity} from "typeorm";
 
 @ObjectType()
 @Entity()
-export class Messages extends BaseEntity {
+export class OrderImg extends BaseEntity {
 
   @Field()
-  @PrimaryGeneratedColumn()
+  @ObjectIdColumn()
   _id!: number;
 
   @Field()
   @Column()
-  Service_id!: number;
+  user_id!: number;
   
   @Field()
   @Column()
-  Request_des!: String;
+  img_id!: number;
 
   @Field()
   @Column()
-  User_id!: number;
+  Order_id!: number;
   
   @Field()
   @Column()
   combany_id!: number;
 
-  @Field()
-  @Column()
-  isDone!: boolean;
-
-  @Field()
-  @Column()
-  done_msg!: string;
-  
-  @Field()
-  @Column()
-  done_img!: string;
-  
-
-  @Field()
-  @Column()
-  is_viewed!: number;
-
-  
   @Field()
   @CreateDateColumn()
   createdAt: Date = new Date();
@@ -55,30 +37,19 @@ export class Messages extends BaseEntity {
 
 
 @InputType()
-export class InputMessages {
+export class InputOrders {
+
+    @Field()
+    user_id!: number;
     
     @Field()
-    Service_id!: number;
-    
-    @Field()
-    Request_des!: String;
+    img_id!: number;
   
     @Field()
-    User_id!: number;
+    req_id!: number;
     
     @Field()
     combany_id!: number;
   
-    @Field()
-    isDone!: boolean;
-  
-    @Field()
-    done_msg!: string;
-    
-    @Field()
-    done_img!: string;
-    
-    @Field()
-    is_viewed!: number;
 }
 

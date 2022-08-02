@@ -1,12 +1,12 @@
 import { Field, ObjectType , InputType } from "type-graphql";
-import { PrimaryGeneratedColumn , Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity} from "typeorm";
+import { ObjectIdColumn , Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity} from "typeorm";
 
 @ObjectType()
 @Entity()
 export class Messages extends BaseEntity {
 
   @Field()
-  @PrimaryGeneratedColumn()
+  @ObjectIdColumn()
   _id!: number;
 
   @Field()

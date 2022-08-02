@@ -1,18 +1,27 @@
 import "reflect-metadata";
 
-import databaseConfig from "./src/dataBase/MoConfig";
+import databaseConfig from "././src/dataBase/MoConfig";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 
 import cors from "cors";
 import { DataSource } from "typeorm";
-import config from "config";
+import config from "./config";
 
 import session from "express-session";
+
 import MongoStore from 'connect-mongo'
-import passport from "passport";
-import { CategoriesResolver } from "src/Resolvers/Kd_Re_categories";
+import { passport } from "./src/middleware/Auth";
+import { CategoriesResolver } from "./src/Resolvers/Kd_Re_categories";
+import { FollowsResolver } from "./src/Resolvers/Kd_Re_follows";
+import { MessagesResolver } from "./src/Resolvers/Kd_Re_messages";
+import { OrderImgResolver } from "./src/Resolvers/Kd_Re_orders_imgs";
+import { OrdersResolver } from "./src/Resolvers/Kd_Re_orders";
+import { RequirementUploadersResolver } from "./src/Resolvers/Kd_Re_requirement_uploaders";
+import { UploadedFilesResulver } from "./src/Resolvers/Kd_Re_uploaded_files";
+import { UserResolver } from "./src/Resolvers/Kd_Re_users";
+import { __prod__ } from "constants";
 
 const main = async () => {
   const PORT = config.SERVER_PORT;
@@ -39,7 +48,7 @@ const main = async () => {
   app.use(
     cors({
       credentials: true,
-      origin: config.BACK_END_URL,
+      origin: __prod__ ? config.BACK_END_URL : config.APOLLO_URL,
     })
   );
 
@@ -50,7 +59,7 @@ const main = async () => {
       secret: config.DB_HOST || "fsdfsd",
       resave: false,
       saveUninitialized: true,
-      store: MongoStore.create({})
+      store: MongoStore.create({mongoUrl:"mongodb://localhost:27017"})
 
     })
   );
@@ -63,14 +72,14 @@ const main = async () => {
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [
-        Follows,
+        FollowsResolver,
         CategoriesResolver,
-        Messages,
-        Orders,
-        Orders_imgs,
-        Requirement_uploaders,
-        Uploaded_files,
-        Users,
+        MessagesResolver,
+        OrderImgResolver,
+        OrdersResolver,
+        RequirementUploadersResolver,
+        UploadedFilesResulver,
+        UserResolver,
       ],
     }),
     context: ({ req, res }) => ({ req, res, typeOrmConnection }),

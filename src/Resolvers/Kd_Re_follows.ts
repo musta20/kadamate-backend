@@ -1,5 +1,6 @@
-import { Follows , InputFollows } from "src/modules/Kd_Mo_follows";
-import { apiContext } from "src/utils/types";
+import { isAuth } from "../middleware/Auth/isAuth";
+import { Follows } from "../modules/Kd_Mo_follows";
+import { apiContext } from "../utils/types";
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 
 @Resolver()
@@ -11,55 +12,25 @@ export class FollowsResolver {
     return Follows.find();
   }
   
-  @UseMiddleware(Auth)
+  @UseMiddleware(isAuth)
   @Mutation(() => Boolean)
   async Follows(
     @Ctx() { req }: apiContext,
-    @Arg("userId") userId: number,
+    @Arg("CombanyId") CombanyId: number,
   ) {
-    const MyId = req.session?.userId;
-    const iserror = validateBill(BillInput);
+  
+  const MyId = req.session?.userId;
 
-    if (iserror)
-      return {
-        errors: iserror,
-      };
-
-    if (!List.length)
-      return {
-        errors: [{ field: "List", message: "يجب إضافة منتجات " }],
-      };
-
-    BillInput.UserID = MyId;
-    const pdfName = Math.trunc(Math.random() * 1000) + "BILLNO";
-    BillInput.PdfName = pdfName;
-    const bill = await Bill.create(BillInput as Bill).save();
+  const isFollow = await Follows.findOneBy({User_id:MyId,combany_id:CombanyId})
+   
+   if(isFollow){
+    Follows.delete(isFollow._id);
+    return false
+   }
 
 
-    let isErroList;
-    List.every(async (item) => {
-      item.UserId = MyId;
-      item.BillId = bill._id;
-      isErroList = validateProdect(item);
-      if (isErroList) return;
-
-      await Product.create(item as Product).save();
-    });
-
-    if (isErroList)
-      return {
-        errors: isErroList,
-      };
-    const UserData = await User.findOneBy({ _id: MyId });
-
-    try {
-      GenratePdf(pdfName, List, bill, UserData);
-    } catch (e) {
-      console.log(e);
-    }
-
-    return {
-      Bill:bill
-    };
+    Follows.create({User_id:MyId,combany_id:CombanyId}).save()
+    return true
+   
   }
 }

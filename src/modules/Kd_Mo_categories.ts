@@ -1,12 +1,12 @@
 import { Field, InputType, ObjectType } from "type-graphql";
-import { PrimaryGeneratedColumn , Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity} from "typeorm";
+import { ObjectIdColumn , Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity} from "typeorm";
 
 @ObjectType()
 @Entity()
 export class Categories extends BaseEntity {
 
   @Field()
-  @PrimaryGeneratedColumn()
+  @ObjectIdColumn()
   _id!: number;
 
   @Field()

@@ -1,8 +1,10 @@
 import passport from "passport";
 import LocalStrategy from "passport-local";
 import argon2 from "argon2";
-import { Users } from "src/modules/Kd_Mo_users";
+import { Users } from "../../modules/Kd_Mo_users";
+import express from "express"
 
+ const router = express.Router()
 passport.use(
   new LocalStrategy.Strategy(
     async (
@@ -51,4 +53,9 @@ passport.deserializeUser(function(user, cb) {
   });
 });
 
-export default passport
+router.post('/login/password', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
+
+export default  {passport, router};

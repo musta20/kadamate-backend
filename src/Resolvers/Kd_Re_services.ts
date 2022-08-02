@@ -1,76 +1,95 @@
-import { Bill, BillResponse, InputBill } from "../entits/Bill";
-import { Resolver, Query, Arg, Mutation, Ctx, UseMiddleware } from "type-graphql";
-import { validateBill, validateProdect } from "../utils/inputValidator";
-import { apiContext, PList } from "../utils/types";
-import { InputProduct, Product } from "../entits/Product";
-import { GenratePdf } from "../utils/GenratePdfBill";
-import { User } from "../entits/User";
-import { isAuth } from "../middleware/UserAuth";
+import { isAuth } from "../middleware/Auth/isAuth";
+
+import { InputServices, Services } from "../modules/Kd_Mo_services";
+
+import { apiContext } from "../utils/types";
+
+import {
+  Arg,
+  Ctx,
+  Mutation,
+  Query,
+  Resolver,
+  UseMiddleware,
+} from "type-graphql";
 
 @Resolver()
-export class BillResolver {
-  @Query(() => [Bill])
-  Bills(@Ctx() { req }: apiContext) {
+export class ServicesResulver {
+  @Query(() => [Services])
+  async AllServices() {
+    return Services.find();
+  }
+
+  @UseMiddleware(isAuth)
+  @Query(() => [Services])
+  async AllServicesMy(@Ctx() { req }: apiContext) {
     const MyId = req.session?.userId;
 
-    return Bill.findBy({ UserID: MyId });
+    return await Services.findBy({ user_id: MyId });
   }
 
-  @Query(() => Bill, { nullable: true })
-  Bill(@Arg("id") _id: number) {
-    return Bill.findOneBy({ _id });
-  }
-  
   @UseMiddleware(isAuth)
-  @Mutation(() => BillResponse)
-  async createBill(
+  @Mutation(() => Services)
+  async addServices(
     @Ctx() { req }: apiContext,
-    @Arg("BillInput") BillInput: InputBill,
-    @Arg("List", () => [InputProduct]) List: PList
+    @Arg("serviceIput") serviceId: InputServices
   ) {
     const MyId = req.session?.userId;
-    const iserror = validateBill(BillInput);
+    serviceId.user_id = MyId;
+    await Services.create(serviceId as Services)
+      .save()
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
 
-    if (iserror)
-      return {
-        errors: iserror,
-      };
+    return true;
+  }
 
-    if (!List.length)
-      return {
-        errors: [{ field: "List", message: "يجب إضافة منتجات " }],
-      };
+  @UseMiddleware(isAuth)
+  @Mutation(() => Services)
+  async updateServices(
+    @Ctx() { req }: apiContext,
+    @Arg("serviceIput") serviceIput: InputServices,
+    @Arg("id") serviceId: number
+  ) {
+    const MyId = req.session?.userId;
 
-    BillInput.UserID = MyId;
-    const pdfName = Math.trunc(Math.random() * 1000) + "BILLNO";
-    BillInput.PdfName = pdfName;
-    const bill = await Bill.create(BillInput as Bill).save();
+    const serviceUpdate = await Services.findOneBy({
+      _id: serviceId,
+      user_id: MyId,
+    });
+    if (!serviceUpdate) {
+      return false;
+    }
+    serviceUpdate.Title = serviceIput.Title;
+    serviceUpdate.Description = serviceIput.Description;
+    serviceUpdate.Requirement = serviceIput.Requirement;
+    serviceUpdate.img_id = serviceIput.img_id;
+    serviceUpdate.cat_id = serviceIput.cat_id;
 
+    serviceUpdate.save().catch((err) => {
+      console.error(err);
 
-    let isErroList;
-    List.every(async (item) => {
-      item.UserId = MyId;
-      item.BillId = bill._id;
-      isErroList = validateProdect(item);
-      if (isErroList) return;
-
-      await Product.create(item as Product).save();
+      return false;
     });
 
-    if (isErroList)
-      return {
-        errors: isErroList,
-      };
-    const UserData = await User.findOneBy({ _id: MyId });
+    return serviceUpdate;
+  }
 
-    try {
-      GenratePdf(pdfName, List, bill, UserData);
-    } catch (e) {
-      console.log(e);
-    }
+  @UseMiddleware(isAuth)
+  @Mutation(() => Boolean)
+  async deleteServices(
+    @Ctx() { req }: apiContext,
+    @Arg("serviceId") serviceId: number
+  ) {
+    const MyId = req.session?.userId;
 
-    return {
-      Bill:bill
-    };
+    await Services.delete({ _id: serviceId, user_id: MyId }).catch((err) => {
+      console.log(err);
+      return false;
+    });
+
+    return true;
   }
 }

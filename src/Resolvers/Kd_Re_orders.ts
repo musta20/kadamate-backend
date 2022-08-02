@@ -1,76 +1,86 @@
-import { Bill, BillResponse, InputBill } from "../entits/Bill";
-import { Resolver, Query, Arg, Mutation, Ctx, UseMiddleware } from "type-graphql";
-import { validateBill, validateProdect } from "../utils/inputValidator";
-import { apiContext, PList } from "../utils/types";
-import { InputProduct, Product } from "../entits/Product";
-import { GenratePdf } from "../utils/GenratePdfBill";
-import { User } from "../entits/User";
-import { isAuth } from "../middleware/UserAuth";
+import {
+  Resolver,
+  Arg,
+  Ctx,
+  UseMiddleware,
+  Mutation,
+  Query,
+} from "type-graphql";
+import { apiContext } from "../utils/types";
+
+import { isAuth } from "../middleware/Auth/isAuth";
+import { InputOrders, OrderImg } from "../modules/Kd_Mo_orders_imgs";
+import { Orders } from "../modules/Kd_Mo_orders";
 
 @Resolver()
-export class BillResolver {
-  @Query(() => [Bill])
-  Bills(@Ctx() { req }: apiContext) {
+export class OrdersResolver {
+  @UseMiddleware(isAuth)
+  @Query(() => [Orders])
+  AllOrder(@Ctx() { req }: apiContext) {
     const MyId = req.session?.userId;
 
-    return Bill.findBy({ UserID: MyId });
+    return Orders.find({
+      where: [{ User_id: MyId }],
+    });
   }
 
-  @Query(() => Bill, { nullable: true })
-  Bill(@Arg("id") _id: number) {
-    return Bill.findOneBy({ _id });
-  }
-  
   @UseMiddleware(isAuth)
-  @Mutation(() => BillResponse)
-  async createBill(
-    @Ctx() { req }: apiContext,
-    @Arg("BillInput") BillInput: InputBill,
-    @Arg("List", () => [InputProduct]) List: PList
+  @Query(() => Orders)
+  async getOrderByid(
+    @Arg("OrderId") OrderId: number,
+    @Ctx() { req }: apiContext
   ) {
     const MyId = req.session?.userId;
-    const iserror = validateBill(BillInput);
 
-    if (iserror)
-      return {
-        errors: iserror,
-      };
-
-    if (!List.length)
-      return {
-        errors: [{ field: "List", message: "يجب إضافة منتجات " }],
-      };
-
-    BillInput.UserID = MyId;
-    const pdfName = Math.trunc(Math.random() * 1000) + "BILLNO";
-    BillInput.PdfName = pdfName;
-    const bill = await Bill.create(BillInput as Bill).save();
-
-
-    let isErroList;
-    List.every(async (item) => {
-      item.UserId = MyId;
-      item.BillId = bill._id;
-      isErroList = validateProdect(item);
-      if (isErroList) return;
-
-      await Product.create(item as Product).save();
+    const resultOrder = await Orders.findBy({
+      User_id: MyId,
+      _id: OrderId,
+    }).catch((err) => {
+      return err;
     });
 
-    if (isErroList)
-      return {
-        errors: isErroList,
-      };
-    const UserData = await User.findOneBy({ _id: MyId });
+    if (!resultOrder) {
+      return false;
+    }
+    return resultOrder;
+  }
 
-    try {
-      GenratePdf(pdfName, List, bill, UserData);
-    } catch (e) {
-      console.log(e);
+  @UseMiddleware(isAuth)
+  @Query(() => OrderImg)
+  async addOrder(
+    @Arg("orderInput") orderInput: InputOrders,
+    @Ctx() { req }: apiContext
+  ) {
+    const MyId = req.session?.userId;
+    orderInput.req_id = MyId;
+
+    return await OrderImg.create(orderInput)
+      .save()
+      .catch((err) => {
+        return err;
+      });
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => Boolean)
+  async CloseOrder(
+    @Arg("OrderId") OrderId: number,
+    @Ctx() { req }: apiContext
+  ) {
+    const MyId = req.session?.userId;
+
+    const findImge = await Orders.findOne({
+      where: [
+        { combany_id: MyId, _id: OrderId },
+        { User_id: MyId, _id: OrderId },
+      ],
+    });
+
+    if (findImge) {
+      findImge.isDone = true;
+      findImge.save()
     }
 
-    return {
-      Bill:bill
-    };
+    return false;
   }
 }

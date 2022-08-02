@@ -1,17 +1,17 @@
 import { Field, ObjectType , InputType } from "type-graphql";
-import { PrimaryGeneratedColumn , Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity} from "typeorm";
+import { ObjectIdColumn , Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity} from "typeorm";
 
 @ObjectType()
 @Entity()
 export class Follows extends BaseEntity {
 
   @Field()
-  @PrimaryGeneratedColumn()
+  @ObjectIdColumn()
   _id!: number;
 
   @Field()
   @Column()
-  Service_id!: number;
+  combany_id!: number;
   
   @Field()
   @Column()
