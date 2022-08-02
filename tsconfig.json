@@ -23,5 +23,9 @@
     "resolveJsonModule": true,
     "baseUrl": "."
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "typeRoots": [
+    "./src/utils/types", // this is where you define your types
+    "./node_modules/@types" //this where npm packages containing types are located
+  ],
 }

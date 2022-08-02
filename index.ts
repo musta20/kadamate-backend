@@ -12,7 +12,7 @@ import config from "./config";
 import session from "express-session";
 
 import MongoStore from 'connect-mongo'
-import { passport } from "./src/middleware/Auth";
+import { Passport , router}  from "./src/middleware/Auth/Auth";
 import { CategoriesResolver } from "./src/Resolvers/Kd_Re_categories";
 import { FollowsResolver } from "./src/Resolvers/Kd_Re_follows";
 import { MessagesResolver } from "./src/Resolvers/Kd_Re_messages";
@@ -21,12 +21,11 @@ import { OrdersResolver } from "./src/Resolvers/Kd_Re_orders";
 import { RequirementUploadersResolver } from "./src/Resolvers/Kd_Re_requirement_uploaders";
 import { UploadedFilesResulver } from "./src/Resolvers/Kd_Re_uploaded_files";
 import { UserResolver } from "./src/Resolvers/Kd_Re_users";
-import { __prod__ } from "constants";
+import {__prod__}  from "./constants";
 
 const main = async () => {
   const PORT = config.SERVER_PORT;
   const typeOrmConnection = await new DataSource(databaseConfig);
-
   typeOrmConnection
     .initialize()
     .then(() => {
@@ -41,7 +40,16 @@ const main = async () => {
     });
 
   const app = express();
+  app.use(
+    session({
+      secret:'keyboard cat',
+      resave: true,
+      saveUninitialized: true,
+      store: MongoStore.create({mongoUrl:"mongodb://localhost:27017/session"})
 
+    })
+  );
+  app.use(Passport.authenticate('session'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
@@ -54,17 +62,9 @@ const main = async () => {
 
   /* ini passport */
 
-  app.use(
-    session({
-      secret: config.DB_HOST || "fsdfsd",
-      resave: false,
-      saveUninitialized: true,
-      store: MongoStore.create({mongoUrl:"mongodb://localhost:27017"})
 
-    })
-  );
   
-  app.use(passport.authenticate('session'));
+  app.use(router)
 
   ///////////   apolloServer   //////////////
 // Set up session

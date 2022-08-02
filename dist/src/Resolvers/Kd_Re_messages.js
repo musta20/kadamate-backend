@@ -30,7 +30,8 @@ let MessagesResolver = class MessagesResolver {
         });
     }
     async SendMessages(messageInput, { req }) {
-        const MyId = 5;
+        var _a;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
         messageInput.Sender_id = MyId;
         await Kd_Mo_messages_1.Messages.create(messageInput)
             .save()
@@ -68,6 +69,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MessagesResolver.prototype, "AllMessagesByOrderId", null);
 __decorate([
+    (0, type_graphql_1.UseMiddleware)(isAuth_1.isAuth),
     (0, type_graphql_1.Mutation)(() => Boolean),
     __param(0, (0, type_graphql_1.Arg)("messageInput")),
     __param(1, (0, type_graphql_1.Ctx)()),

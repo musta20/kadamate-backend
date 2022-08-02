@@ -32,12 +32,12 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Users.prototype, "email", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Users.prototype, "des", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -67,7 +67,7 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], Users.prototype, "img_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -91,11 +91,11 @@ __decorate([
 ], InputUsers.prototype, "name", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputUsers.prototype, "email", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputUsers.prototype, "des", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -115,7 +115,7 @@ __decorate([
 ], InputUsers.prototype, "password", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], InputUsers.prototype, "img_id", void 0);
 InputUsers = __decorate([
     (0, type_graphql_1.InputType)()

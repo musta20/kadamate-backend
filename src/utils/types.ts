@@ -11,11 +11,15 @@ export type apiContext = {
 declare module 'express-session' {
  interface Session {
     userId: number;
+    passport: { user: { id: string, username: string } }
   }
 }
 
 
-
+export interface sessionUser { 
+  id:number ,
+   username:string
+  }
 
 
 export class ResponseResult {

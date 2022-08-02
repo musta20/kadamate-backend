@@ -15,11 +15,11 @@ export class Users extends BaseEntity {
   
   @Field()
   @Column()
-  email!: number;
+  email!: string;
 
   @Field()
   @Column()
-  des!: number;
+  des!: string;
 
   @Field()
   @Column()
@@ -43,7 +43,7 @@ export class Users extends BaseEntity {
 
   @Field()
   @Column()
-  img_id: string;
+  img_id: number;
 
 
 
@@ -66,10 +66,10 @@ export class InputUsers {
   name!: string;
   
   @Field()
-  email!: number;
+  email!: string;
 
   @Field()
-  des!: number;
+  des!: string;
 
   @Field()
   phone!: string;
@@ -84,7 +84,7 @@ export class InputUsers {
   password: string;
 
   @Field()
-  img_id: string;
+  img_id: number;
   
 
 }

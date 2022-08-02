@@ -1,9 +1,9 @@
 import { apiContext } from "../utils/types";
 
-import { Resolver, Query, Ctx, Arg } from "type-graphql";
-//import argon2 from "argon2";
+import { Resolver, Query, Ctx, Arg, Mutation } from "type-graphql";
+import argon2 from "argon2";
 //import { UsernameAndPassword, Users } from "src/modules/Kd_Mo_users";
-import {  Users } from "../modules/Kd_Mo_users";
+import { InputUsers, Users } from "../modules/Kd_Mo_users";
 
 @Resolver()
 export class UserResolver {
@@ -14,18 +14,47 @@ export class UserResolver {
 
   @Query(() => Users, { nullable: true })
   async Profile(@Ctx() { req }: apiContext) {
+    console.log(req.session.passport.user.id)
+    console.log(req.session.passport.user.username)
     if (!req.session.userId) return null;
     const usersend = await Users.findOneBy({ _id: req.session.userId });
     return usersend;
   }
 
- /*  @Mutation(() => Users)
+  @Mutation(() => Users)
+  async RegisterUser(
+    @Arg("userInput") props: InputUsers,
+    @Ctx() { req }: apiContext
+  ) {
+
+    const myId = req.session.userId;
+    if(myId) return false
+    if (props) {
+
+
+      props.password =  await argon2.hash(props.password)
+
+    const addUser=  await Users.create(props as Users)
+        .save()
+        .catch((err) => {
+          console.log(err)
+          return false;
+        })
+        return addUser;
+
+    }
+
+    return false
+
+  }
+
+  /*  @Mutation(() => Users)
   async loginUser(
     @Arg("userNameAndPassword") props: UsernameAndPassword,
     @Ctx() { req }: apiContext
   ) {
      */
-    /* 
+  /* 
     const error = validateUserLogin(props);
     if (error)
       return {
@@ -52,7 +81,7 @@ export class UserResolver {
       user: userFind,
     }; */
   //}
-/* 
+  /* 
   @Mutation(() => Boolean)
   logout(@Ctx() { req, res }: apiContext) {
     res.clearCookie("billtoken");

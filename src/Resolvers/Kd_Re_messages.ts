@@ -35,14 +35,13 @@ export class MessagesResolver {
   }
 
 
-  //@UseMiddleware(isAuth)
+  @UseMiddleware(isAuth)
   @Mutation(() => Boolean)
   async SendMessages(
     @Arg("messageInput") messageInput: InputMessages,
     @Ctx() { req }: apiContext
   ) {
-    //const MyId = req.session?.userId;
-    const MyId = 5
+    const MyId = req.session?.userId;
 
     messageInput.Sender_id = MyId;
 

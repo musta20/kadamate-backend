@@ -3,8 +3,9 @@ import LocalStrategy from "passport-local";
 import argon2 from "argon2";
 import { Users } from "../../modules/Kd_Mo_users";
 import express from "express"
+import { sessionUser } from "src/utils/types";
 
- const router = express.Router()
+ export const router = express.Router()
 passport.use(
   new LocalStrategy.Strategy(
     async (
@@ -17,14 +18,13 @@ passport.use(
       ) => void
     ) => {
       const userResult = await Users.findOneBy({ username: username });
-
       if (!userResult)
         return callback(null, false, {
           message: "Incorrect username or password.",
         });
 
       if (userResult) {
-        userResult;
+        
         const isValid = await argon2.verify(userResult?.password, password);
 
         if (!isValid)
@@ -35,15 +35,15 @@ passport.use(
 
 
 
-      return callback(null, userResult);
+      return callback(null, { id:userResult._id, username:userResult.username } );
 
     }
   )
 );
-passport.serializeUser((user: Express.User, done: (err: any, id?: unknown) => void) =>{
+passport.serializeUser((userS: Express.User | sessionUser, done: (err: any,user:sessionUser) => void) =>{
   process.nextTick(function() {
 
-    done(null, { id: user, username: user });
+    return done(null, userS as sessionUser );
   });
 });
 
@@ -53,9 +53,9 @@ passport.deserializeUser(function(user, cb) {
   });
 });
 
-router.post('/login/password', passport.authenticate('local', {
+router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login'
 }));
 
-export default  {passport, router};
+export const Passport = passport;
