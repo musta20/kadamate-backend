@@ -17,7 +17,7 @@ export class OrdersResolver {
   @UseMiddleware(isAuth)
   @Query(() => [Orders])
   AllOrder(@Ctx() { req }: apiContext) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     return Orders.find({
       where: [{ User_id: MyId }],
@@ -30,7 +30,7 @@ export class OrdersResolver {
     @Arg("OrderId") OrderId: number,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     const resultOrder = await Orders.findBy({
       User_id: MyId,
@@ -51,7 +51,7 @@ export class OrdersResolver {
     @Arg("orderInput") orderInput: InputOrders,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
     orderInput.req_id = MyId;
 
     return await OrderImg.create(orderInput)
@@ -67,7 +67,7 @@ export class OrdersResolver {
     @Arg("OrderId") OrderId: number,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     const findImge = await Orders.findOne({
       where: [

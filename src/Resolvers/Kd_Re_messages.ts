@@ -16,7 +16,7 @@ export class MessagesResolver {
   @UseMiddleware(isAuth)
   @Query(() => [Messages])
   AllMessages(@Ctx() { req }: apiContext) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     return Messages.find({ where: [{ User_id: MyId }, { Sender_id: MyId }] });
   }
@@ -27,7 +27,8 @@ export class MessagesResolver {
     @Arg("OrderId") OrderId: number,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = req.session?.userId;
+   
+    const MyId = parseInt(req.session?.passport.user.id) ;
 
     return Messages.find({
       where: [{ User_id: MyId }, { Sender_id: MyId }, { Order_id: OrderId }],
@@ -41,7 +42,7 @@ export class MessagesResolver {
     @Arg("messageInput") messageInput: InputMessages,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     messageInput.Sender_id = MyId;
 
@@ -61,7 +62,7 @@ export class MessagesResolver {
     @Arg("messageID") messageID: number,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     await Messages.delete({ _id: messageID, Sender_id: MyId }).catch((err) => {
       console.error(err)

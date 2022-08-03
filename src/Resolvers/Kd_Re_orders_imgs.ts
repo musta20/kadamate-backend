@@ -13,7 +13,7 @@ export class OrderImgResolver {
     @Arg("OrderId") OrderId: number,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     return OrderImg.find({
       where: [{ user_id: MyId }, { Order_id: OrderId }],
@@ -27,7 +27,7 @@ export class OrderImgResolver {
     @Arg("OrderId") OrderId: number,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     return OrderImg.find({
       where: [{ Order_id: OrderId }, { combany_id: MyId }],
@@ -41,7 +41,7 @@ export class OrderImgResolver {
     @Arg("imgId") imgId: number,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     const findImge = await OrderImg.findOneBy({ user_id: MyId, img_id: imgId });
     if (findImge) {
@@ -59,7 +59,7 @@ export class OrderImgResolver {
     @Arg("imgInput") imgId: InputOrders,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     imgId.user_id = MyId;
     const imge = await OrderImg.create(imgId)

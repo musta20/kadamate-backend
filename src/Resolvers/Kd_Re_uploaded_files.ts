@@ -20,7 +20,7 @@ export class UploadedFilesResulver {
   @UseMiddleware(isAuth)
   @Query(() => [UploadedFiles])
   async AllUploadedFilesMy(@Ctx() { req }: apiContext) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     return await UploadedFiles.findBy({ user_id: MyId });
   }

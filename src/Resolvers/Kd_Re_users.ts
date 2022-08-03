@@ -14,10 +14,10 @@ export class UserResolver {
 
   @Query(() => Users, { nullable: true })
   async Profile(@Ctx() { req }: apiContext) {
-    console.log(req.session.passport.user.id)
-    console.log(req.session.passport.user.username)
-    if (!req.session.userId) return null;
-    const usersend = await Users.findOneBy({ _id: req.session.userId });
+    const MyId = parseInt(req.session?.passport.user.id);
+
+    if (!MyId) return null;
+    const usersend = await Users.findOneBy({ _id: MyId });
     return usersend;
   }
 
@@ -26,26 +26,22 @@ export class UserResolver {
     @Arg("userInput") props: InputUsers,
     @Ctx() { req }: apiContext
   ) {
+    const MyId = parseInt(req.session?.passport.user.id);
 
-    const myId = req.session.userId;
-    if(myId) return false
+    if (MyId) return false;
     if (props) {
+      props.password = await argon2.hash(props.password);
 
-
-      props.password =  await argon2.hash(props.password)
-
-    const addUser=  await Users.create(props as Users)
+      const addUser = await Users.create(props as Users)
         .save()
         .catch((err) => {
-          console.log(err)
+          console.log(err);
           return false;
-        })
-        return addUser;
-
+        });
+      return addUser;
     }
 
-    return false
-
+    return false;
   }
 
   /*  @Mutation(() => Users)

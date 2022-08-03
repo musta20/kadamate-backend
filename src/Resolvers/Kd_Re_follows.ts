@@ -19,7 +19,7 @@ export class FollowsResolver {
     @Arg("CombanyId") CombanyId: number,
   ) {
   
-  const MyId = req.session?.userId;
+  const MyId = parseInt( req.session?.passport.user.id );
 
   const isFollow = await Follows.findOneBy({User_id:MyId,combany_id:CombanyId})
    

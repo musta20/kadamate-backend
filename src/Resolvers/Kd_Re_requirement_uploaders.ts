@@ -26,7 +26,7 @@ export class RequirementUploadersResolver {
     @Ctx() { req }: apiContext,
     @Arg("Ru") Ru: InputRequirementUploaders
   ) {
-    const MyId = req.session?.userId;
+    const MyId = parseInt(req.session?.passport.user.id);
 
     if (MyId) {
       await RequirementUploaders.create(Ru as RequirementUploaders);
