@@ -23,7 +23,7 @@ export class ServicesResulver {
   @UseMiddleware(isAuth)
   @Query(() => [Services])
   async AllServicesMy(@Ctx() { req }: apiContext) {
-    const MyId = parseInt(req.session?.passport.user.id);
+    const MyId = req.session?.passport.user.id;
 
     return await Services.findBy({ user_id: MyId });
   }
@@ -34,16 +34,16 @@ export class ServicesResulver {
     @Ctx() { req }: apiContext,
     @Arg("serviceIput") serviceId: InputServices
   ) {
-    const MyId = parseInt(req.session?.passport.user.id);
+    const MyId = req.session?.passport.user.id;
     serviceId.user_id = MyId;
-    await Services.create(serviceId as Services)
+   const sevedServ =  await Services.create(serviceId as Services)
       .save()
       .catch((err) => {
         console.log(err);
         return false;
       });
 
-    return true;
+    return sevedServ;
   }
 
   @UseMiddleware(isAuth)
@@ -51,9 +51,9 @@ export class ServicesResulver {
   async updateServices(
     @Ctx() { req }: apiContext,
     @Arg("serviceIput") serviceIput: InputServices,
-    @Arg("id") serviceId: number
+    @Arg("id") serviceId: string
   ) {
-    const MyId = parseInt(req.session?.passport.user.id);
+    const MyId = req.session?.passport.user.id;
 
     const serviceUpdate = await Services.findOneBy({
       _id: serviceId,
@@ -81,9 +81,9 @@ export class ServicesResulver {
   @Mutation(() => Boolean)
   async deleteServices(
     @Ctx() { req }: apiContext,
-    @Arg("serviceId") serviceId: number
+    @Arg("serviceId") serviceId: string
   ) {
-    const MyId = parseInt(req.session?.passport.user.id);
+    const MyId = req.session?.passport.user.id;
 
     await Services.delete({ _id: serviceId, user_id: MyId }).catch((err) => {
       console.log(err);

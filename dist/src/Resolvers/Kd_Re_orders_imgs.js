@@ -19,30 +19,33 @@ const Kd_Mo_orders_imgs_1 = require("../modules/Kd_Mo_orders_imgs");
 let OrderImgResolver = class OrderImgResolver {
     getAllOrderImgByOrderId(OrderId, { req }) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         return Kd_Mo_orders_imgs_1.OrderImg.find({
             where: [{ user_id: MyId }, { Order_id: OrderId }],
         });
     }
     getAllOrderImgByAndCompanyOrderId(OrderId, { req }) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         return Kd_Mo_orders_imgs_1.OrderImg.find({
             where: [{ Order_id: OrderId }, { combany_id: MyId }],
         });
     }
     async deleteOrderImg(imgId, { req }) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         const findImge = await Kd_Mo_orders_imgs_1.OrderImg.findOneBy({ user_id: MyId, img_id: imgId });
         if (findImge) {
             Kd_Mo_orders_imgs_1.OrderImg.delete(findImge === null || findImge === void 0 ? void 0 : findImge._id);
+            return true;
         }
-        return true;
+        else {
+            return false;
+        }
     }
     async addOrderImg(imgId, { req }) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         imgId.user_id = MyId;
         const imge = await Kd_Mo_orders_imgs_1.OrderImg.create(imgId)
             .save()
@@ -58,7 +61,7 @@ __decorate([
     __param(0, (0, type_graphql_1.Arg)("OrderId")),
     __param(1, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], OrderImgResolver.prototype, "getAllOrderImgByOrderId", null);
 __decorate([
@@ -67,7 +70,7 @@ __decorate([
     __param(0, (0, type_graphql_1.Arg)("OrderId")),
     __param(1, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], OrderImgResolver.prototype, "getAllOrderImgByAndCompanyOrderId", null);
 __decorate([
@@ -76,7 +79,7 @@ __decorate([
     __param(0, (0, type_graphql_1.Arg)("imgId")),
     __param(1, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], OrderImgResolver.prototype, "deleteOrderImg", null);
 __decorate([
@@ -85,7 +88,7 @@ __decorate([
     __param(0, (0, type_graphql_1.Arg)("imgInput")),
     __param(1, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Kd_Mo_orders_imgs_1.InputOrders, Object]),
+    __metadata("design:paramtypes", [Kd_Mo_orders_imgs_1.InputImgOrders, Object]),
     __metadata("design:returntype", Promise)
 ], OrderImgResolver.prototype, "addOrderImg", null);
 OrderImgResolver = __decorate([

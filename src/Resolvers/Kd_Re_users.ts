@@ -1,23 +1,24 @@
-import { apiContext } from "../utils/types";
+import { apiContext, inferToObjectId } from "../utils/types";
 
 import { Resolver, Query, Ctx, Arg, Mutation } from "type-graphql";
 import argon2 from "argon2";
 //import { UsernameAndPassword, Users } from "src/modules/Kd_Mo_users";
-import { InputUsers, Users } from "../modules/Kd_Mo_users";
+import { InputUsers, InputUsersCustmer, Users } from "../modules/Kd_Mo_users";
 
 @Resolver()
 export class UserResolver {
   @Query(() => Users, { nullable: true })
-  User(@Arg("id") _id: number) {
+  User(@Arg("id") _id: string) {
     //return em.findOne(User, { _id });
   }
 
   @Query(() => Users, { nullable: true })
-  async Profile(@Ctx() { req }: apiContext) {
-    const MyId = parseInt(req.session?.passport.user.id);
-
+  async Profile(@Ctx() { req }: apiContext) { 
+    const MyId = req.session?.passport?.user?.id;
+   
     if (!MyId) return null;
-    const usersend = await Users.findOneBy({ _id: MyId });
+    const usersend = await Users.findOneBy({ _id:inferToObjectId( MyId )});
+
     return usersend;
   }
 
@@ -26,7 +27,7 @@ export class UserResolver {
     @Arg("userInput") props: InputUsers,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = parseInt(req.session?.passport.user.id);
+    const MyId = req.session?.passport?.user.id;
 
     if (MyId) return false;
     if (props) {
@@ -36,12 +37,15 @@ export class UserResolver {
         .save()
         .catch((err) => {
           console.log(err);
-          return false;
+          return { errors: [{ field: "error", message: err }] };
         });
+
       return addUser;
     }
 
-    return false;
+    return {
+      errors: [{ field: "error", message: "spmthing went wrong" }],
+    };
   }
 
   /*  @Mutation(() => Users)
@@ -110,19 +114,21 @@ export class UserResolver {
       user: returnuser,
     };
   }
-
-  @Mutation(() => User, { nullable: true })
+*/
+  @Mutation(() => Users, { nullable: true })
   async updateUser(
-    @Arg("id") _id: number,
-    @Arg("UserInput", () => InputUser) userInput: InputUser
+    @Arg("UserInput", () => InputUsersCustmer) userInput: InputUsersCustmer,
+    @Ctx() { req }: apiContext
   ) {
-    const error = validateUser(userInput);
-    if (error)
+   // const error = validateUser(userInput);
+ /*    if (error)
       return {
         errors: error,
-      };
-
-    const findUser = await User.findOneBy({ _id });
+      }; */
+      const MyId = req.session?.passport?.user?.id;
+   
+      if (!MyId) return null;
+    const findUser = await Users.findOneBy({ _id:inferToObjectId(MyId) });
 
     if (!findUser)
       return {
@@ -130,10 +136,10 @@ export class UserResolver {
           fied: "error",
         },
       };
-    if (userInput.Adress) findUser.Adress = userInput.Adress;
-    if (userInput.Contact) findUser.Contact = userInput.Contact;
-    if (userInput.Name) findUser.Name = userInput.Name;
+    if (userInput.email) findUser.email = userInput.email;
+    if (userInput.name) findUser.name = userInput.name;
+    if (userInput.phone) findUser.phone = userInput.phone;
 
-    return await User.save(findUser);
-  } */
+    return await Users.save(findUser);
+  } 
 }

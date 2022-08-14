@@ -22,17 +22,17 @@ let Follows = class Follows extends typeorm_1.BaseEntity {
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.ObjectIdColumn)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Follows.prototype, "_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Follows.prototype, "combany_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Follows.prototype, "User_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -52,11 +52,11 @@ let InputFollows = class InputFollows {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputFollows.prototype, "Service_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputFollows.prototype, "User_id", void 0);
 InputFollows = __decorate([
     (0, type_graphql_1.InputType)()

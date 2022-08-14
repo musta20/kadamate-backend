@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsernameAndPassword = exports.InputUsers = exports.Users = void 0;
+exports.UsernameAndPassword = exports.InputUsersCustmer = exports.InputUsers = exports.Users = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 let Users = class Users extends typeorm_1.BaseEntity {
@@ -22,7 +22,7 @@ let Users = class Users extends typeorm_1.BaseEntity {
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.ObjectIdColumn)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Users.prototype, "_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -67,7 +67,7 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Users.prototype, "img_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -115,12 +115,34 @@ __decorate([
 ], InputUsers.prototype, "password", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputUsers.prototype, "img_id", void 0);
 InputUsers = __decorate([
     (0, type_graphql_1.InputType)()
 ], InputUsers);
 exports.InputUsers = InputUsers;
+let InputUsersCustmer = class InputUsersCustmer {
+};
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], InputUsersCustmer.prototype, "name", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], InputUsersCustmer.prototype, "email", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], InputUsersCustmer.prototype, "phone", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], InputUsersCustmer.prototype, "password", void 0);
+InputUsersCustmer = __decorate([
+    (0, type_graphql_1.InputType)()
+], InputUsersCustmer);
+exports.InputUsersCustmer = InputUsersCustmer;
 let UsernameAndPassword = class UsernameAndPassword {
 };
 __decorate([

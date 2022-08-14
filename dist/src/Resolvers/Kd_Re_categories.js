@@ -33,7 +33,7 @@ __decorate([
     (0, type_graphql_1.Query)(() => Kd_Mo_categories_1.Categories, { nullable: true }),
     __param(0, (0, type_graphql_1.Arg)("id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], CategoriesResolver.prototype, "getCategoriesById", null);
 CategoriesResolver = __decorate([

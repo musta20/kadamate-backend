@@ -22,17 +22,22 @@ let RequirementUploadersResolver = class RequirementUploadersResolver {
     }
     async AddRequirementUploaders({ req }, Ru) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         if (MyId) {
-            await Kd_Mo_requirement_uploaders_1.RequirementUploaders.create(Ru);
+            const file = await Kd_Mo_requirement_uploaders_1.RequirementUploaders.create(Ru).save().catch(err => {
+                console.log(err);
+                return false;
+            });
+            return file;
         }
+        return false;
     }
 };
 __decorate([
     (0, type_graphql_1.Query)(() => [Kd_Mo_requirement_uploaders_1.RequirementUploaders]),
     __param(0, (0, type_graphql_1.Arg)("ServiceId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], RequirementUploadersResolver.prototype, "AllRequirementUploaders", null);
 __decorate([

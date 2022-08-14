@@ -40,6 +40,7 @@ passport.use(
     }
   )
 );
+
 passport.serializeUser(
   (
     userS: Express.User | sessionUser,
@@ -51,21 +52,41 @@ passport.serializeUser(
   }
 );
 
-passport.deserializeUser(function (user :  Express.User, cb) {
+passport.deserializeUser(function (user: Express.User, cb) {
   process.nextTick(function () {
     return cb(null, user as Express.User);
   });
 });
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-  })
-);
 
+
+
+router.post("/login", (req, res, next) => {
+
+  passport.authenticate("local", (err, user) => {
+
+    if (err) {
+      return next(err);
+    }
+    
+    if (!user) {
+      return res
+        .send({ success: false, message: "authentication failed" })
+        .status(401);
+    }
+
+     req.logIn(user,()=>{
+      return res.send({ success: true, message: "authentication succeeded" });
+ })
+ 
+ //return res.send({ success: true, message: "authentication succeeded" });
+
+  })(req, res, next);
+
+});
+ 
 router.post("/signup", async (req, res, next) => {
+
   await Users.create(req.body)
     .save()
     .then((user: Users) => {
@@ -73,6 +94,7 @@ router.post("/signup", async (req, res, next) => {
         id: user?._id,
         username: req.body.username,
       };
+
       req.login(userLogin, function (err) {
         if (err) {
           return next(err);
@@ -89,12 +111,11 @@ router.post("/signup", async (req, res, next) => {
     });
 });
 
-router.delete("/logout", (req,res) => {
-  req.logOut((err)=>{
-    console.error(err)
+router.delete("/logout", (req, res) => {
+  req.logOut((err) => {
+    console.error(err);
   });
-  res.redirect("/login")
-
-})
+  res.redirect("/login");
+});
 
 export const Passport = passport;

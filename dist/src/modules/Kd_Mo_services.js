@@ -22,7 +22,7 @@ let Services = class Services extends typeorm_1.BaseEntity {
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.ObjectIdColumn)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Services.prototype, "_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -47,7 +47,7 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Services.prototype, "user_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -57,12 +57,12 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Services.prototype, "img_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Services.prototype, "cat_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -98,7 +98,7 @@ __decorate([
 ], InputServices.prototype, "NumberOf_Request_Done", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputServices.prototype, "user_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -106,11 +106,11 @@ __decorate([
 ], InputServices.prototype, "is_des_req", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputServices.prototype, "img_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputServices.prototype, "cat_id", void 0);
 InputServices = __decorate([
     (0, type_graphql_1.InputType)()

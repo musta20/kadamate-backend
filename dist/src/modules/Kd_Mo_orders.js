@@ -22,12 +22,12 @@ let Orders = class Orders extends typeorm_1.BaseEntity {
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.ObjectIdColumn)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Orders.prototype, "_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Orders.prototype, "Service_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -37,17 +37,17 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Orders.prototype, "User_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Orders.prototype, "combany_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Number)
 ], Orders.prototype, "isDone", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -82,7 +82,7 @@ let InputOrders = class InputOrders {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputOrders.prototype, "Service_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -90,15 +90,15 @@ __decorate([
 ], InputOrders.prototype, "Request_des", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputOrders.prototype, "User_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputOrders.prototype, "combany_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Number)
 ], InputOrders.prototype, "isDone", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),

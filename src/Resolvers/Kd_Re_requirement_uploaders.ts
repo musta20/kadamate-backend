@@ -16,7 +16,7 @@ import {
 @Resolver()
 export class RequirementUploadersResolver {
   @Query(() => [RequirementUploaders])
-  async AllRequirementUploaders(@Arg("ServiceId") ServiceId: number) {
+  async AllRequirementUploaders(@Arg("ServiceId") ServiceId: string) {
     await RequirementUploaders.findBy({ Service_id: ServiceId });
   }
 
@@ -26,10 +26,17 @@ export class RequirementUploadersResolver {
     @Ctx() { req }: apiContext,
     @Arg("Ru") Ru: InputRequirementUploaders
   ) {
-    const MyId = parseInt(req.session?.passport.user.id);
+    const MyId = req.session?.passport.user.id;
 
     if (MyId) {
-      await RequirementUploaders.create(Ru as RequirementUploaders);
+    const file=  await RequirementUploaders.create(Ru as RequirementUploaders).save().catch(err=>{
+        console.log(err)
+        return false
+      });
+
+      return file
     }
+    return false
+
   }
 }

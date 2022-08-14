@@ -22,12 +22,12 @@ let Messages = class Messages extends typeorm_1.BaseEntity {
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.ObjectIdColumn)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Messages.prototype, "_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Messages.prototype, "Sender_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -37,17 +37,17 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Messages.prototype, "User_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Messages.prototype, "Order_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Number)
 ], Messages.prototype, "isDone", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -77,7 +77,7 @@ let InputMessages = class InputMessages {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputMessages.prototype, "Sender_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -85,15 +85,15 @@ __decorate([
 ], InputMessages.prototype, "Messages", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputMessages.prototype, "User_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputMessages.prototype, "Order_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Number)
 ], InputMessages.prototype, "isDone", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),

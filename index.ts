@@ -11,8 +11,8 @@ import config from "./config";
 
 import session from "express-session";
 
-import MongoStore from 'connect-mongo'
-import { Passport , router}  from "./src/middleware/Auth/Auth";
+import MongoStore from "connect-mongo";
+import { Passport, router } from "./src/middleware/Auth/Auth";
 import { CategoriesResolver } from "./src/Resolvers/Kd_Re_categories";
 import { FollowsResolver } from "./src/Resolvers/Kd_Re_follows";
 import { MessagesResolver } from "./src/Resolvers/Kd_Re_messages";
@@ -21,7 +21,8 @@ import { OrdersResolver } from "./src/Resolvers/Kd_Re_orders";
 import { RequirementUploadersResolver } from "./src/Resolvers/Kd_Re_requirement_uploaders";
 import { UploadedFilesResulver } from "./src/Resolvers/Kd_Re_uploaded_files";
 import { UserResolver } from "./src/Resolvers/Kd_Re_users";
-import {__prod__}  from "./constants";
+import { __prod__ } from "./constants";
+import { ServicesResulver } from "./src/Resolvers/Kd_Re_services";
 
 const main = async () => {
   const PORT = config.SERVER_PORT;
@@ -42,33 +43,39 @@ const main = async () => {
   const app = express();
   app.use(
     session({
-      secret:'keyboard cat',
-      resave: true,
-      saveUninitialized: true,
-      store: MongoStore.create({mongoUrl:"mongodb://localhost:27017/session"})
-
-    })
+      name: "billtoken",
+      store: MongoStore.create({
+        mongoUrl: "mongodb://localhost:27017/session",
+      }),
+      cookie: {
+        maxAge: 315360000000,
+        httpOnly: false,
+        secure: false,
+      },
+      saveUninitialized: false,
+      secret: "keyboardcat",
+      resave: false,})
+    
   );
-  app.use(Passport.authenticate('session'));
+/*   store: MongoStore.create({
+    mongoUrl: "mongodb://localhost:27017/session",
+  }), */
+  app.use(Passport.authenticate("session",{ session: false }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
   app.use(
     cors({
       credentials: true,
-      origin: __prod__ ? config.BACK_END_URL : config.APOLLO_URL,
+      origin: __prod__ ?   config.APOLLO_URL : config.BACK_END_URL  ,
+      methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"]
     })
   );
 
   /* ini passport */
-
-
-  
-  app.use(router)
-
+  app.use(router);
+  // Set up session
   ///////////   apolloServer   //////////////
-// Set up session
-
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [
@@ -80,21 +87,20 @@ const main = async () => {
         RequirementUploadersResolver,
         UploadedFilesResulver,
         UserResolver,
+        ServicesResulver,
       ],
     }),
     context: ({ req, res }) => ({ req, res, typeOrmConnection }),
   });
 
   await apolloServer.start();
-
-  apolloServer.applyMiddleware({ app, cors: false });
+//, cors: false 
+  apolloServer.applyMiddleware({ app ,cors:false });
 
   ///////////express Middleware //////////////
   app.get("/", (_req, res) => {
     res.send("BACK END URL IS http://localhost:3000");
   });
-
-
 
   app.listen(PORT, () => {
     console.log("\x1b[33m%s\x1b[0m", `NODEJS SERVER RUNNING ON PORT:${PORT}`);

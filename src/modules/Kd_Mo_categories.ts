@@ -7,7 +7,7 @@ export class Categories extends BaseEntity {
 
   @Field()
   @ObjectIdColumn()
-  _id!: number;
+  _id!: string;
 
   @Field()
   @Column()
@@ -15,7 +15,7 @@ export class Categories extends BaseEntity {
 
   @Field()
   @Column()
-  Parent_Categories!: number;
+  Parent_Categories!: string;
 
   @Field()
   @CreateDateColumn()
@@ -36,7 +36,7 @@ export class InputCategories {
   Categories_Title!: string;
 
   @Field()
-  Parent_Categories!: number;
+  Parent_Categories!: string;
 
 
 }

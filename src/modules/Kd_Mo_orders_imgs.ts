@@ -7,23 +7,23 @@ export class OrderImg extends BaseEntity {
 
   @Field()
   @ObjectIdColumn()
-  _id!: number;
+  _id: string;
 
   @Field()
   @Column()
-  user_id!: number;
+  user_id!: string;
   
   @Field()
   @Column()
-  img_id!: number;
+  img_id!: string;
 
   @Field()
   @Column()
-  Order_id!: number;
+  Order_id!: string;
   
   @Field()
   @Column()
-  combany_id!: number;
+  combany_id!: string;
 
   @Field()
   @CreateDateColumn()
@@ -37,19 +37,19 @@ export class OrderImg extends BaseEntity {
 
 
 @InputType()
-export class InputOrders {
+export class InputImgOrders {
 
     @Field()
-    user_id!: number;
+    user_id!: string;
     
     @Field()
-    img_id!: number;
+    img_id!: string;
   
     @Field()
-    req_id!: number;
+    req_id!: string;
     
     @Field()
-    combany_id!: number;
+    combany_id!: string;
   
 }
 

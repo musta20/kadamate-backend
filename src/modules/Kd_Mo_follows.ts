@@ -7,15 +7,15 @@ export class Follows extends BaseEntity {
 
   @Field()
   @ObjectIdColumn()
-  _id!: number;
+  _id!: string;
 
   @Field()
   @Column()
-  combany_id!: number;
+  combany_id!: string;
   
   @Field()
   @Column()
-  User_id!: number;
+  User_id!: string;
 
   @Field()
   @CreateDateColumn()
@@ -32,10 +32,10 @@ export class Follows extends BaseEntity {
 export class InputFollows {
 
   @Field()
-  Service_id!: number;
+  Service_id!: string;
 
   @Field()
-  User_id!: number  ;
+  User_id!: string  ;
 
 }
 

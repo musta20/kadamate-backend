@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InputOrders = exports.OrderImg = void 0;
+exports.InputImgOrders = exports.OrderImg = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 let OrderImg = class OrderImg extends typeorm_1.BaseEntity {
@@ -22,27 +22,27 @@ let OrderImg = class OrderImg extends typeorm_1.BaseEntity {
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.ObjectIdColumn)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], OrderImg.prototype, "_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], OrderImg.prototype, "user_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], OrderImg.prototype, "img_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], OrderImg.prototype, "Order_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], OrderImg.prototype, "combany_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -58,26 +58,26 @@ OrderImg = __decorate([
     (0, typeorm_1.Entity)()
 ], OrderImg);
 exports.OrderImg = OrderImg;
-let InputOrders = class InputOrders {
+let InputImgOrders = class InputImgOrders {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
-], InputOrders.prototype, "user_id", void 0);
+    __metadata("design:type", String)
+], InputImgOrders.prototype, "user_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
-], InputOrders.prototype, "img_id", void 0);
+    __metadata("design:type", String)
+], InputImgOrders.prototype, "img_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
-], InputOrders.prototype, "req_id", void 0);
+    __metadata("design:type", String)
+], InputImgOrders.prototype, "req_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
-], InputOrders.prototype, "combany_id", void 0);
-InputOrders = __decorate([
+    __metadata("design:type", String)
+], InputImgOrders.prototype, "combany_id", void 0);
+InputImgOrders = __decorate([
     (0, type_graphql_1.InputType)()
-], InputOrders);
-exports.InputOrders = InputOrders;
+], InputImgOrders);
+exports.InputImgOrders = InputImgOrders;
 //# sourceMappingURL=Kd_Mo_orders_imgs.js.map

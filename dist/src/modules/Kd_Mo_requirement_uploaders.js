@@ -22,7 +22,7 @@ let RequirementUploaders = class RequirementUploaders extends typeorm_1.BaseEnti
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.ObjectIdColumn)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], RequirementUploaders.prototype, "_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -32,7 +32,7 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], RequirementUploaders.prototype, "Service_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
@@ -61,7 +61,7 @@ __decorate([
 ], InputRequirementUploaders.prototype, "Title_upload", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], InputRequirementUploaders.prototype, "Service_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),

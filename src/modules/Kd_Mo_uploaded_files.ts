@@ -7,7 +7,7 @@ export class UploadedFiles extends BaseEntity {
 
   @Field()
   @ObjectIdColumn()
-  _id!: number;
+  _id!: string;
 
   @Field()
   @Column()
@@ -15,11 +15,11 @@ export class UploadedFiles extends BaseEntity {
   
   @Field()
   @Column()
-  user_id!: number;
+  user_id!: string;
 
   @Field()
   @Column()
-  Request_id!: number;
+  Request_id!: string;
 
   @Field()
   @Column()
@@ -49,10 +49,10 @@ export class InputServices {
     File_name!: string;
     
     @Field()
-    user_id!: number;
+    user_id!: string;
   
     @Field()
-    Request_id!: number;
+    Request_id!: string;
   
     @Field()
     ext!: string;

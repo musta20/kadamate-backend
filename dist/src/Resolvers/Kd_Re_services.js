@@ -22,24 +22,24 @@ let ServicesResulver = class ServicesResulver {
     }
     async AllServicesMy({ req }) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         return await Kd_Mo_services_1.Services.findBy({ user_id: MyId });
     }
     async addServices({ req }, serviceId) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         serviceId.user_id = MyId;
-        await Kd_Mo_services_1.Services.create(serviceId)
+        const sevedServ = await Kd_Mo_services_1.Services.create(serviceId)
             .save()
             .catch((err) => {
             console.log(err);
             return false;
         });
-        return true;
+        return sevedServ;
     }
     async updateServices({ req }, serviceIput, serviceId) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         const serviceUpdate = await Kd_Mo_services_1.Services.findOneBy({
             _id: serviceId,
             user_id: MyId,
@@ -60,7 +60,7 @@ let ServicesResulver = class ServicesResulver {
     }
     async deleteServices({ req }, serviceId) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         await Kd_Mo_services_1.Services.delete({ _id: serviceId, user_id: MyId }).catch((err) => {
             console.log(err);
             return false;
@@ -98,7 +98,7 @@ __decorate([
     __param(1, (0, type_graphql_1.Arg)("serviceIput")),
     __param(2, (0, type_graphql_1.Arg)("id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Kd_Mo_services_1.InputServices, Number]),
+    __metadata("design:paramtypes", [Object, Kd_Mo_services_1.InputServices, String]),
     __metadata("design:returntype", Promise)
 ], ServicesResulver.prototype, "updateServices", null);
 __decorate([
@@ -107,7 +107,7 @@ __decorate([
     __param(0, (0, type_graphql_1.Ctx)()),
     __param(1, (0, type_graphql_1.Arg)("serviceId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Number]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ServicesResulver.prototype, "deleteServices", null);
 ServicesResulver = __decorate([

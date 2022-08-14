@@ -23,7 +23,10 @@ passport_1.default.use(new passport_local_1.default.Strategy(async (username, pa
                 message: "Incorrect username or password.",
             });
     }
-    return callback(null, { id: userResult._id, username: userResult.username });
+    return callback(null, {
+        id: userResult._id,
+        username: userResult.username,
+    });
 }));
 passport_1.default.serializeUser((userS, done) => {
     process.nextTick(function () {
@@ -35,9 +38,48 @@ passport_1.default.deserializeUser(function (user, cb) {
         return cb(null, user);
     });
 });
-exports.router.post('/login', passport_1.default.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login'
-}));
+exports.router.post("/login", (req, res, next) => {
+    passport_1.default.authenticate("local", (err, user) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res
+                .send({ success: false, message: "authentication failed" })
+                .status(401);
+        }
+        req.logIn(user, () => {
+            return res.send({ success: true, message: "authentication succeeded" });
+        });
+    })(req, res, next);
+});
+exports.router.post("/signup", async (req, res, next) => {
+    await Kd_Mo_users_1.Users.create(req.body)
+        .save()
+        .then((user) => {
+        let userLogin = {
+            id: user === null || user === void 0 ? void 0 : user._id,
+            username: req.body.username,
+        };
+        req.login(userLogin, function (err) {
+            if (err) {
+                return next(err);
+            }
+            res.redirect("/");
+        });
+    })
+        .catch((err) => {
+        if (err) {
+            return next(err);
+        }
+        console.log(err);
+    });
+});
+exports.router.delete("/logout", (req, res) => {
+    req.logOut((err) => {
+        console.error(err);
+    });
+    res.redirect("/login");
+});
 exports.Passport = passport_1.default;
 //# sourceMappingURL=Auth.js.map

@@ -19,19 +19,19 @@ const Kd_Mo_messages_1 = require("../modules/Kd_Mo_messages");
 let MessagesResolver = class MessagesResolver {
     AllMessages({ req }) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         return Kd_Mo_messages_1.Messages.find({ where: [{ User_id: MyId }, { Sender_id: MyId }] });
     }
     AllMessagesByOrderId(OrderId, { req }) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         return Kd_Mo_messages_1.Messages.find({
             where: [{ User_id: MyId }, { Sender_id: MyId }, { Order_id: OrderId }],
         });
     }
     async SendMessages(messageInput, { req }) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         messageInput.Sender_id = MyId;
         await Kd_Mo_messages_1.Messages.create(messageInput)
             .save()
@@ -43,7 +43,7 @@ let MessagesResolver = class MessagesResolver {
     }
     async DeleteMessages(messageID, { req }) {
         var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport.user.id;
         await Kd_Mo_messages_1.Messages.delete({ _id: messageID, Sender_id: MyId }).catch((err) => {
             console.error(err);
             return false;
@@ -65,7 +65,7 @@ __decorate([
     __param(0, (0, type_graphql_1.Arg)("OrderId")),
     __param(1, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], MessagesResolver.prototype, "AllMessagesByOrderId", null);
 __decorate([
@@ -83,7 +83,7 @@ __decorate([
     __param(0, (0, type_graphql_1.Arg)("messageID")),
     __param(1, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], MessagesResolver.prototype, "DeleteMessages", null);
 MessagesResolver = __decorate([

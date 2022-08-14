@@ -10,7 +10,7 @@ export class CategoriesResolver {
   }
 
   @Query(() => Categories, { nullable: true })
-  getCategoriesById(@Arg("id") _id: number) {
+  getCategoriesById(@Arg("id") _id: string) {
     return Categories.findOneBy({ _id });
   }
 }

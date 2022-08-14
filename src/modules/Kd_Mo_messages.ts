@@ -7,11 +7,11 @@ export class Messages extends BaseEntity {
 
   @Field()
   @ObjectIdColumn()
-  _id!: number;
+  _id!: string;
 
   @Field()
   @Column()
-  Sender_id!: number;
+  Sender_id!: string;
   
   @Field()
   @Column()
@@ -19,15 +19,15 @@ export class Messages extends BaseEntity {
 
   @Field()
   @Column()
-  User_id!: number;
+  User_id!: string;
   
   @Field()
   @Column()
-  Order_id!: number;
+  Order_id!: string;
 
   @Field()
   @Column()
-  isDone!: boolean;
+  isDone!: number;
 
   @Field()
   @Column()
@@ -53,19 +53,19 @@ export class Messages extends BaseEntity {
 @InputType()
 export class InputMessages {
     @Field()
-    Sender_id!: number;
+    Sender_id!: string;
     
     @Field()
     Messages!: String;
   
     @Field()
-    User_id!: number;
+    User_id!: string;
     
     @Field()
-    Order_id!: number;
+    Order_id!: string;
   
     @Field()
-    isDone!: boolean;
+    isDone!: number;
   
     @Field()
     m_type!: number;

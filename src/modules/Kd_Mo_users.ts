@@ -7,7 +7,7 @@ export class Users extends BaseEntity {
 
   @Field()
   @ObjectIdColumn()
-  _id!: number;
+  _id!: string;
 
   @Field()
   @Column()
@@ -43,7 +43,7 @@ export class Users extends BaseEntity {
 
   @Field()
   @Column()
-  img_id: number;
+  img_id: string;
 
 
 
@@ -60,8 +60,6 @@ export class Users extends BaseEntity {
 
 @InputType()
 export class InputUsers {
-
-
   @Field()
   name!: string;
   
@@ -84,10 +82,33 @@ export class InputUsers {
   password: string;
 
   @Field()
-  img_id: number;
+  img_id: string;
   
-
 }
+
+
+
+
+
+@InputType()
+export class InputUsersCustmer {
+  @Field()
+  name!: string;
+  
+  @Field()
+  email!: string;
+
+
+  @Field()
+  phone!: string;
+  
+  @Field()
+  password: string;
+
+  
+}
+
+
 
 @InputType()
 export class UsernameAndPassword {

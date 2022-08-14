@@ -9,8 +9,55 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ErrorFiled = exports.ResponseResult = void 0;
+exports.ErrorFiled = exports.ResponseResult = exports.OrdersResponse = exports.inferToObjectId = void 0;
+const mongodb_1 = require("mongodb");
 const type_graphql_1 = require("type-graphql");
+const inferToObjectId = (strId) => {
+    return new mongodb_1.ObjectId(strId);
+};
+exports.inferToObjectId = inferToObjectId;
+let OrdersResponse = class OrdersResponse {
+};
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], OrdersResponse.prototype, "_id", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Object)
+], OrdersResponse.prototype, "Service_name", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], OrdersResponse.prototype, "Request_des", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Object)
+], OrdersResponse.prototype, "combany_name", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Number)
+], OrdersResponse.prototype, "isDone", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], OrdersResponse.prototype, "done_msg", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], OrdersResponse.prototype, "done_img", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Number)
+], OrdersResponse.prototype, "is_viewed", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Date)
+], OrdersResponse.prototype, "createdAt", void 0);
+OrdersResponse = __decorate([
+    (0, type_graphql_1.ObjectType)()
+], OrdersResponse);
+exports.OrdersResponse = OrdersResponse;
 class ResponseResult {
 }
 exports.ResponseResult = ResponseResult;

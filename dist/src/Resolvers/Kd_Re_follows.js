@@ -21,8 +21,8 @@ let FollowsResolver = class FollowsResolver {
         return Kd_Mo_follows_1.Follows.find();
     }
     async Follows({ req }, CombanyId) {
-        var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        var _a, _b;
+        const MyId = (_b = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport) === null || _b === void 0 ? void 0 : _b.user.id;
         const isFollow = await Kd_Mo_follows_1.Follows.findOneBy({ User_id: MyId, combany_id: CombanyId });
         if (isFollow) {
             Kd_Mo_follows_1.Follows.delete(isFollow._id);
@@ -44,7 +44,7 @@ __decorate([
     __param(0, (0, type_graphql_1.Ctx)()),
     __param(1, (0, type_graphql_1.Arg)("CombanyId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Number]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], FollowsResolver.prototype, "Follows", null);
 FollowsResolver = __decorate([

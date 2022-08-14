@@ -23,6 +23,7 @@ const Kd_Re_requirement_uploaders_1 = require("./src/Resolvers/Kd_Re_requirement
 const Kd_Re_uploaded_files_1 = require("./src/Resolvers/Kd_Re_uploaded_files");
 const Kd_Re_users_1 = require("./src/Resolvers/Kd_Re_users");
 const constants_1 = require("./constants");
+const Kd_Re_services_1 = require("./src/Resolvers/Kd_Re_services");
 const main = async () => {
     const PORT = config_1.default.SERVER_PORT;
     const typeOrmConnection = await new typeorm_1.DataSource(MoConfig_1.default);
@@ -36,17 +37,26 @@ const main = async () => {
     });
     const app = (0, express_1.default)();
     app.use((0, express_session_1.default)({
-        secret: 'keyboard cat',
-        resave: true,
-        saveUninitialized: true,
-        store: connect_mongo_1.default.create({ mongoUrl: "mongodb://localhost:27017/session" })
+        name: "billtoken",
+        store: connect_mongo_1.default.create({
+            mongoUrl: "mongodb://localhost:27017/session",
+        }),
+        cookie: {
+            maxAge: 315360000000,
+            httpOnly: false,
+            secure: false,
+        },
+        saveUninitialized: false,
+        secret: "keyboardcat",
+        resave: false,
     }));
-    app.use(Auth_1.Passport.authenticate('session'));
+    app.use(Auth_1.Passport.authenticate("session", { session: false }));
     app.use(express_1.default.json());
     app.use(express_1.default.urlencoded({ extended: true }));
     app.use((0, cors_1.default)({
         credentials: true,
-        origin: constants_1.__prod__ ? config_1.default.BACK_END_URL : config_1.default.APOLLO_URL,
+        origin: constants_1.__prod__ ? config_1.default.APOLLO_URL : config_1.default.BACK_END_URL,
+        methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"]
     }));
     app.use(Auth_1.router);
     const apolloServer = new apollo_server_express_1.ApolloServer({
@@ -60,6 +70,7 @@ const main = async () => {
                 Kd_Re_requirement_uploaders_1.RequirementUploadersResolver,
                 Kd_Re_uploaded_files_1.UploadedFilesResulver,
                 Kd_Re_users_1.UserResolver,
+                Kd_Re_services_1.ServicesResulver,
             ],
         }),
         context: ({ req, res }) => ({ req, res, typeOrmConnection }),

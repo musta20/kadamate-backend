@@ -7,11 +7,11 @@ export class Orders extends BaseEntity {
 
   @Field()
   @ObjectIdColumn()
-  _id!: number;
+  _id:  string;
 
   @Field()
   @Column()
-  Service_id!: number;
+  Service_id!: string;
   
   @Field()
   @Column()
@@ -19,15 +19,15 @@ export class Orders extends BaseEntity {
 
   @Field()
   @Column()
-  User_id!: number;
+  User_id!: string;
   
   @Field()
   @Column()
-  combany_id!: number;
+  combany_id!: string;
 
   @Field()
   @Column()
-  isDone!: boolean;
+  isDone!: number;
 
   @Field()
   @Column()
@@ -58,19 +58,19 @@ export class Orders extends BaseEntity {
 export class InputOrders {
     
     @Field()
-    Service_id!: number;
+    Service_id!: string;
     
     @Field()
     Request_des!: String;
   
     @Field()
-    User_id!: number;
+    User_id!: string;
     
     @Field()
-    combany_id!: number;
+    combany_id!: string;
   
     @Field()
-    isDone!: boolean;
+    isDone!: number;
   
     @Field()
     done_msg!: string;
@@ -81,4 +81,3 @@ export class InputOrders {
     @Field()
     is_viewed!: number;
 }
-

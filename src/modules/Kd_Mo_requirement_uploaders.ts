@@ -7,7 +7,7 @@ export class RequirementUploaders extends BaseEntity {
 
   @Field()
   @ObjectIdColumn()
-  _id!: number;
+  _id!: string;
 
   @Field()
   @Column()
@@ -15,7 +15,7 @@ export class RequirementUploaders extends BaseEntity {
   
   @Field()
   @Column()
-  Service_id!: number;
+  Service_id!: string;
 
   @Field()
   @Column()
@@ -41,7 +41,7 @@ export class InputRequirementUploaders {
     Title_upload!: string;
     
     @Field()
-    Service_id!: number;
+    Service_id!: string;
   
     @Field()
     is_required!: boolean;

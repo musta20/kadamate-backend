@@ -7,7 +7,7 @@ export class Services extends BaseEntity {
 
   @Field()
   @ObjectIdColumn()
-  _id!: number;
+  _id!: string;
 
   @Field()
   @Column()
@@ -28,7 +28,7 @@ export class Services extends BaseEntity {
 
   @Field()
   @Column()
-  user_id!: number;
+  user_id!: string;
 
 
 
@@ -39,11 +39,11 @@ export class Services extends BaseEntity {
 
   @Field()
   @Column()
-  img_id!: number;
+  img_id!: string;
 
   @Field()
   @Column()
-  cat_id!: number;
+  cat_id!: string;
 
 
   
@@ -75,17 +75,17 @@ export class InputServices {
   NumberOf_Request_Done	!: number;
 
   @Field()
-  user_id!: number;
+  user_id!: string;
 
   @Field()
   is_des_req!: number;
 
 
   @Field()
-  img_id!: number;
+  img_id!: string;
 
   @Field()
-  cat_id!: number;
+  cat_id!: string;
 
 
 }

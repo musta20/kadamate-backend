@@ -18,8 +18,8 @@ const Kd_Mo_uploaded_files_1 = require("../modules/Kd_Mo_uploaded_files");
 const type_graphql_1 = require("type-graphql");
 let UploadedFilesResulver = class UploadedFilesResulver {
     async AllUploadedFilesMy({ req }) {
-        var _a;
-        const MyId = (_a = req.session) === null || _a === void 0 ? void 0 : _a.userId;
+        var _a, _b;
+        const MyId = (_b = (_a = req.session) === null || _a === void 0 ? void 0 : _a.passport) === null || _b === void 0 ? void 0 : _b.user.id;
         return await Kd_Mo_uploaded_files_1.UploadedFiles.findBy({ user_id: MyId });
     }
     async RemoveFile({ req }, imgId) {
@@ -46,7 +46,7 @@ __decorate([
     __param(0, (0, type_graphql_1.Ctx)()),
     __param(1, (0, type_graphql_1.Arg)("img_id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Number]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], UploadedFilesResulver.prototype, "RemoveFile", null);
 UploadedFilesResulver = __decorate([

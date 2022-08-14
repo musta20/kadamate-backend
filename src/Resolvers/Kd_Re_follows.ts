@@ -16,10 +16,10 @@ export class FollowsResolver {
   @Mutation(() => Boolean)
   async Follows(
     @Ctx() { req }: apiContext,
-    @Arg("CombanyId") CombanyId: number,
+    @Arg("CombanyId") CombanyId: string,
   ) {
   
-  const MyId = parseInt( req.session?.passport.user.id );
+  const MyId =  req.session?.passport?.user.id ;
 
   const isFollow = await Follows.findOneBy({User_id:MyId,combany_id:CombanyId})
    

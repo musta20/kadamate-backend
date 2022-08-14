@@ -20,7 +20,7 @@ export class UploadedFilesResulver {
   @UseMiddleware(isAuth)
   @Query(() => [UploadedFiles])
   async AllUploadedFilesMy(@Ctx() { req }: apiContext) {
-    const MyId = parseInt(req.session?.passport.user.id);
+    const MyId = req.session?.passport?.user.id;
 
     return await UploadedFiles.findBy({ user_id: MyId });
   }
@@ -29,7 +29,7 @@ export class UploadedFilesResulver {
   @Mutation(() => UploadedFiles)
   async RemoveFile(
     @Ctx() { req }: apiContext,
-    @Arg("img_id") imgId: number
+    @Arg("img_id") imgId: string
   ) {
     const MyId = req.session?.userId;
 

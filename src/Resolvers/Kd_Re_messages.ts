@@ -16,7 +16,7 @@ export class MessagesResolver {
   @UseMiddleware(isAuth)
   @Query(() => [Messages])
   AllMessages(@Ctx() { req }: apiContext) {
-    const MyId = parseInt(req.session?.passport.user.id);
+    const MyId = req.session?.passport.user.id;
 
     return Messages.find({ where: [{ User_id: MyId }, { Sender_id: MyId }] });
   }
@@ -24,11 +24,11 @@ export class MessagesResolver {
   @UseMiddleware(isAuth)
   @Mutation(() => [Messages])
   AllMessagesByOrderId(
-    @Arg("OrderId") OrderId: number,
+    @Arg("OrderId") OrderId: string,
     @Ctx() { req }: apiContext
   ) {
    
-    const MyId = parseInt(req.session?.passport.user.id) ;
+    const MyId = req.session?.passport.user.id;
 
     return Messages.find({
       where: [{ User_id: MyId }, { Sender_id: MyId }, { Order_id: OrderId }],
@@ -42,7 +42,7 @@ export class MessagesResolver {
     @Arg("messageInput") messageInput: InputMessages,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = parseInt(req.session?.passport.user.id);
+    const MyId = req.session?.passport.user.id;
 
     messageInput.Sender_id = MyId;
 
@@ -59,10 +59,10 @@ export class MessagesResolver {
   @UseMiddleware(isAuth)
   @Mutation(() => Boolean)
   async DeleteMessages(
-    @Arg("messageID") messageID: number,
+    @Arg("messageID") messageID: string,
     @Ctx() { req }: apiContext
   ) {
-    const MyId = parseInt(req.session?.passport.user.id);
+    const MyId =req.session?.passport.user.id;
 
     await Messages.delete({ _id: messageID, Sender_id: MyId }).catch((err) => {
       console.error(err)
